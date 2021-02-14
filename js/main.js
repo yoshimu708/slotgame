@@ -13,13 +13,19 @@
 
       this.btn = document.createElement('div');
       this.btn.textContent = 'STOP';
-      this.btn.classList.add('btn');
+      this.btn.classList.add('btn','inactive');
       this.btn.addEventListener('click',()=>{
+        if(this.btn.classList.contains('inactive')){
+          return;
+        }
+        this.btn.classList.add('inactive');
         clearTimeout(this.timeoutId);
 
         panelsLeft--;
 
         if(panelsLeft === 0){
+          spin.classList.remove('inactive');
+          panelsLeft = 3;
           checkResult();
         }
       });
@@ -54,6 +60,11 @@
     unmatch(){
       this.img.classList.add('unmatched');
     }
+
+    activete(){
+      this.img.classList.remove('unmatched');
+      this.btn.classList.remove('inactive');
+    }
   }
 
   function checkResult(){
@@ -78,7 +89,12 @@
 
   const spin = document.getElementById('spin');
   spin.addEventListener('click',()=>{
+    if(spin.classList.contains('inactive')){
+      return;
+    }
+    spin.classList.add('inactive');
     panels.forEach(panel => {
+      panel.activete();
       panel.spin();
     });
   });
